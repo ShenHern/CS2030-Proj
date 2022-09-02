@@ -10,6 +10,6 @@ public class Served implements Event {
 
     @Override
     public String toString() {
-        return this.customer.toString() + this.server.toString();
+        return this.customer.toString() + " " + this.server.toString();
     }
 }
