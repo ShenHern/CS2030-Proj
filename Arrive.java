@@ -1,4 +1,4 @@
-class Arrive implements Event{
+class Arrive implements Event {
     private final Customer customer;
     private static final int CANNOT_SERVE = -1;
 
@@ -6,19 +6,18 @@ class Arrive implements Event{
         this.customer = customer;
     }
 
-    public String toString() {
-        return customer.toString() + " arrives";
-    }
-
     public Event returnNextEvent(Customer customer, Server server) {
         int serve = server.checkCanServe(customer.getArrivalTime());
 
         if (serve == CANNOT_SERVE) {
             return new Leave(customer);
-        }
-
-        else {
+        } else {
             return new Served(customer, server);
         }
+    }
+    
+    @Override
+    public String toString() {
+        return customer.toString() + " arrives";
     }
 }

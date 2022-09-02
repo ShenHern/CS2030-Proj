@@ -1,24 +1,24 @@
 class Customer {
     private final int num;
-    private final double arr_time;
-    private final double serv_time;
+    private final double arriveTime;
+    private final double serveTime;
 
-    Customer(int customer_num, double arr_time, double serv_time) {
-        this.num = customer_num;
-        this.arr_time = arr_time;
-        this.serv_time = serv_time;
+    Customer(int customerNum, double arriveTime, double serveTime) {
+        this.num = customerNum;
+        this.arriveTime = arriveTime;
+        this.serveTime = serveTime;
     }
 
     public double getArrivalTime() {
-        return arr_time;
+        return arriveTime;
     }
 
     public double getServeTime() {
-        return serv_time;
+        return serveTime;
     }
 
     public String toString() {
-        return "Customer " + this.num;
+        return "customer " + this.num;
     }
 
 }
