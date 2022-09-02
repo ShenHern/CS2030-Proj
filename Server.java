@@ -16,7 +16,7 @@ class Server {
         this.busyuntil = busyuntil;
     }
 
-    private int checkCanServe(double arr_time) {
+    public int checkCanServe(double arr_time) {
         if (Math.abs(arr_time - busyuntil) <= EPSILON) {
             return CAN_SERVE_ARR_TIME_EQUAL;
         }
@@ -38,17 +38,6 @@ class Server {
         return new Server(this.name, arr_time + serv_time);
     }
 
-    public String tryToServeCustomer(Customer customer) {
-        if (this.checkCanServe(customer.getArrivalTime()) == CAN_SERVE_ARR_TIME_EQUAL || 
-            this.checkCanServe(customer.getArrivalTime()) == CAN_SERVE_ARR_TIME_MORE_THAN) {
-            return customer.toString() + this.toString();
-        }
-
-        else {
-            return customer.toString() + "left the store";
-        }
-    }
-
     public Server returnUpdatedServer(Customer customer) {
         if (this.checkCanServe(customer.getArrivalTime()) == CAN_SERVE_ARR_TIME_EQUAL) {
             return this.updateServerBusyUntil(customer.getServeTime());
@@ -63,6 +52,7 @@ class Server {
         }
     }
 
+    @Override
     public String toString() {
         return "served by " + this.name;
     }

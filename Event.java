@@ -1,4 +1,3 @@
-interface Events {
+interface Event {
     public String toString();
-    
 }

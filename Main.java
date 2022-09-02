@@ -13,7 +13,10 @@ class Main {
             double arrivalTime = sc.nextDouble();
             double serviceTime = sc.nextDouble();
             Customer customer = new Customer(count, arrivalTime, serviceTime);
-            System.out.println(server.tryToServeCustomer(customer));
+            Arrive a = new Arrive(customer);
+            System.out.println(a.toString());
+            Event e = a.returnNextEvent(customer, server);
+            System.out.println(e.toString());
             server = server.returnUpdatedServer(customer);
         }
 
