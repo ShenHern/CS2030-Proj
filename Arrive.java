@@ -6,13 +6,13 @@ class Arrive implements Event {
         this.customer = customer;
     }
 
-    public Event returnNextEvent(Customer customer, Server server) {
+    public Event returnNextEvent(Server server) {
         int serve = server.checkCanServe(customer.getArrivalTime());
 
         if (serve == CANNOT_SERVE) {
-            return new Leave(customer);
+            return new Leave(this.customer);
         } else {
-            return new Served(customer, server);
+            return new Served(this.customer, server);
         }
     }
     

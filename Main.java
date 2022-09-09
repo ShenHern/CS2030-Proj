@@ -15,7 +15,7 @@ class Main {
             Customer customer = new Customer(count, arrivalTime, serviceTime);
             Arrive a = new Arrive(customer);
             System.out.println(a.toString());
-            Event e = a.returnNextEvent(customer, server);
+            Event e = a.returnNextEvent(server);
             System.out.println(e.toString());
             server = server.returnUpdatedServer(customer);
         }
