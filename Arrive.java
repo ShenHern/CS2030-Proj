@@ -2,6 +2,7 @@ class Arrive implements Event {
     private final Customer customer;
     private static final int CANNOT_SERVE = -1;
     private final double timestamp;
+    private static final int PRIO = -1;
 
     Arrive(Customer customer, double timestamp) {
         this.customer = customer;
@@ -26,6 +27,10 @@ class Arrive implements Event {
         return this.customer;
     }
     
+    public int getPriority() {
+        return Arrive.PRIO;
+    }
+
     @Override
     public String toString() {
         return customer.toString() + " arrives";

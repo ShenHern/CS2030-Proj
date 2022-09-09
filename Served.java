@@ -2,6 +2,7 @@ public class Served implements Event {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
+    private static final int PRIO = 0;
 
 
     Served(Customer customer, Server server, double timestamp) {
@@ -20,6 +21,10 @@ public class Served implements Event {
     
     public Customer getCustomer() {
         return this.customer;
+    }
+
+    public int getPriority() {
+        return Served.PRIO;
     }
 
     @Override

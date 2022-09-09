@@ -1,6 +1,7 @@
 public class Leave implements Event {
     private final Customer customer;
     private final double timestamp;
+    private static final int PRIO = 0;
 
     
     Leave(Customer customer, double timestamp) {
@@ -14,6 +15,10 @@ public class Leave implements Event {
 
     public Customer getCustomer() {
         return this.customer;
+    }
+
+    public int getPriority() {
+        return Leave.PRIO;
     }
 
     @Override

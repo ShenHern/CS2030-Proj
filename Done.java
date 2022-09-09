@@ -2,6 +2,7 @@ class Done implements Event {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
+    private static final int PRIO = 1;
 
     Done(Customer customer, Server server, double timestamp) {
         this.customer = customer;
@@ -15,6 +16,10 @@ class Done implements Event {
 
     public Customer getCustomer() {
         return this.customer;
+    }
+
+    public int getPriority() {
+        return Done.PRIO;
     }
 
     @Override
