@@ -9,7 +9,7 @@ class TimestampComp implements Comparator<Event> {
                 //ie priority of events is (Arrive > Served/Leave > Done) for a given customer
                 return event1.getPriority() - event2.getPriority();
             }
-            //if timestamp of events is equal then we sort based on order of customer arrival
+            //otherwise if timestamp of events is equal then we sort based on order of customer arrival
             return event1.getCustomer().getNumber() - event2.getCustomer().getNumber();
         } else if (event1.getTimestamp() - event2.getTimestamp() + EPSILON > 0) {
             return 1;
