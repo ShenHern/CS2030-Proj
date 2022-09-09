@@ -12,6 +12,10 @@ public class Leave implements Event {
         return this.timestamp;
     }
 
+    public Customer getCustomer() {
+        return this.customer;
+    }
+
     @Override
     public String toString() {
         return customer.toString() + " leaves";

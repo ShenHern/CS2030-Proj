@@ -17,6 +17,10 @@ public class Served implements Event {
     public double getTimestamp() {
         return this.timestamp;
     }
+    
+    public Customer getCustomer() {
+        return this.customer;
+    }
 
     @Override
     public String toString() {

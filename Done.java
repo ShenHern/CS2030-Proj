@@ -9,9 +9,12 @@ class Done implements Event {
         this.timestamp = timestamp;
     }
 
-    @Override
     public double getTimestamp() {
         return this.timestamp;
+    }
+
+    public Customer getCustomer() {
+        return this.customer;
     }
 
     @Override
