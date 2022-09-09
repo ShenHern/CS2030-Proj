@@ -46,6 +46,6 @@ class Server {
 
     @Override
     public String toString() {
-        return "served by " + this.name;
+        return this.name;
     }
 }
