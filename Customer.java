@@ -17,6 +17,10 @@ class Customer {
         return serveTime;
     }
 
+    public int getNumber() {
+        return this.num;
+    }
+
     public String toString() {
         return "customer " + this.num;
     }
