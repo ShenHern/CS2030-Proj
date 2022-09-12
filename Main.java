@@ -24,7 +24,9 @@ class Main {
                 Served s = (Served) e;
                 Done d = s.returnDoneEvent();
                 pq = pq.add(d);
-            } catch (Exception ex) {} //do nothing
+            } catch (Exception ex) {
+                assert true;
+            } //do nothing
 
             server = server.returnUpdatedServer(customer);
         }

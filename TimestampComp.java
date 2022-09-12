@@ -2,8 +2,9 @@ import java.util.Comparator;
 
 class TimestampComp implements Comparator<Event> {
     private static final double EPSILON = 1e-15;
+
     public int compare(Event event1, Event event2) {
-        if (Math.abs(event1.getTimestamp() - event2.getTimestamp()) < EPSILON){
+        if (Math.abs(event1.getTimestamp() - event2.getTimestamp()) < EPSILON) {
             if (event1.getCustomer().getNumber() - event2.getCustomer().getNumber() == 0) {
                 //handle for events pertaining to same customer;
                 //ie priority of events is (Arrive > Served/Leave > Done) for a given customer
