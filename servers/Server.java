@@ -1,4 +1,7 @@
-class Server {
+package servers;
+import customers.Customer;
+
+public class Server {
     private final double busyuntil;
     private final String name;
     private static final double EPSILON = 1e-15;
@@ -6,7 +9,7 @@ class Server {
     private static final int CAN_SERVE_ARR_TIME_MORE_THAN = 0;
     private static final int CANNOT_SERVE = -1;
 
-    Server(String name) {
+    public Server(String name) {
         this.name = name;
         this.busyuntil = 0;
     }

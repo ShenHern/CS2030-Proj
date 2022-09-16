@@ -1,11 +1,19 @@
 import java.util.Scanner;
+import java.io.File;
+import customers.Customer;
+import events.Arrive;
+import interfaces.Event;
+import misc.PQ;
+import misc.Pair;
+import misc.TimestampComp;
+import servers.Server;
 
 class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         int count = 0;
         PQ<Event> pq = new PQ<Event>(new TimestampComp());
-
-        Scanner sc = new Scanner(System.in);
+        File fin = new File("test.in");
+        Scanner sc = new Scanner(fin);
         String name = sc.nextLine();
         Server server = new Server(name);
 
@@ -18,17 +26,6 @@ class Main {
             Customer customer = new Customer(count, arrivalTime, serviceTime);
             Arrive a = new Arrive(customer, arrivalTime);
             pq = pq.add(a);
-            Event e = a.returnNextEvent(server); //return a Leave or Served Event
-            pq = pq.add(e);
-            try {
-                Served s = (Served) e;
-                Done d = s.returnDoneEvent();
-                pq = pq.add(d);
-            } catch (Exception ex) {
-                assert true;
-            } //do nothing
-
-            server = server.returnUpdatedServer(customer);
         }
         sc.close();
 
@@ -36,7 +33,13 @@ class Main {
             Pair<Event, PQ<Event>> pr = pq.poll();
             Event e = pr.first();
             pq = pr.second();
-            System.out.println(String.format("%.1f %s", e.getTimestamp(), e.toString()));
+            System.out.println(e.toString());
+            Pair<Event, Server> pr2 = e.execute(server);
+            Event newE = pr2.first();
+            if (e.hasNextEvent()) {
+                pq = pq.add(newE);
+            }
+            server = pr2.second();
         }
         
     }
