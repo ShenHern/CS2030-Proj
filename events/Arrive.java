@@ -59,8 +59,28 @@ public class Arrive implements Event {
     }
 
     @Override
+    public boolean isWait() {
+        return false;
+    }
+
+    @Override
+    public boolean isServe() {
+        return false;
+    }
+
+    @Override
+    public boolean isLeave() {
+        return false;
+    }
+
+    @Override
     public Event updateServer(Server server) {
         return new Arrive(this.customer, server, this.timestamp);
+    }
+
+    @Override
+    public Server getServer () {
+        return this.server;
     }
 
     @Override

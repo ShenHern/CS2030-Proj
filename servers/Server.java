@@ -3,6 +3,7 @@ import customers.Customer;
 
 public class Server {
     private final double busyuntil;
+    private final double waituntil;
     private final String name;
     private final int qmax;
     private final int qcurr;
@@ -12,13 +13,19 @@ public class Server {
         this.busyuntil = 0;
         this.qmax = qmax;
         this.qcurr = 0;
+        this.waituntil = 0;
     }
 
-    Server(String name, double busyuntil, int qmax, int qcurr) {
+    Server(String name, double busyuntil, int qmax, int qcurr, double waituntil) {
         this.name = name;
         this.busyuntil = busyuntil;
         this.qmax = qmax;
         this.qcurr = qcurr;
+        if (qcurr == 0) {
+            this.waituntil = busyuntil;
+        } else {
+            this.waituntil = waituntil;
+        }
     }
 
     public boolean checkCanServe(Customer customer) {
@@ -47,15 +54,19 @@ public class Server {
         if (this.qcurr > 0) {
             newqcurr = this.qcurr - 1;
         }
-        return new Server(this.name, newBusyUntil, this.qmax, newqcurr);
+        return new Server(this.name, newBusyUntil, this.qmax, newqcurr, this.waituntil);
     }
 
     public Server returnUpdatedServer(double newBusyUntil) {
         return updateServerBusyUntil(newBusyUntil);
     }
 
-    public Server updateServerQueue() {
-        return new Server(this.name, this.busyuntil, this.qmax, this.qcurr + 1);
+    public Server updateServerQueue(double serveTime) {
+        return new Server(this.name, this.busyuntil, this.qmax, this.qcurr + 1, this.waituntil + serveTime);
+    }
+
+    public double getWaitUntil() {
+        return this.waituntil;
     }
 
     public boolean canQueue() {

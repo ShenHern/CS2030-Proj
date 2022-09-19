@@ -19,5 +19,13 @@ public interface Event {
 
     boolean isArrive();
 
+    boolean isWait();
+
+    boolean isServe();
+
+    boolean isLeave();
+
+    Server getServer();
+
     Event updateServer(Server server);
 }

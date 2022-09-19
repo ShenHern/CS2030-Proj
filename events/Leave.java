@@ -50,8 +50,28 @@ public class Leave implements Event {
     }
 
     @Override
+    public boolean isWait() {
+        return false;
+    }
+
+    @Override
+    public boolean isServe() {
+        return false;
+    }
+
+    @Override
+    public boolean isLeave() {
+        return true;
+    }
+
+    @Override
     public Event updateServer(Server server) {
         return new Leave(this.customer, server, this.timestamp);
+    }
+
+    @Override
+    public Server getServer () {
+        return this.server;
     }
 
     @Override

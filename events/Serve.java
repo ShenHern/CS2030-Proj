@@ -59,6 +59,26 @@ public class Serve implements Event {
     }
 
     @Override
+    public boolean isWait() {
+        return false;
+    }
+
+    @Override
+    public boolean isServe() {
+        return true;
+    }
+
+    @Override
+    public boolean isLeave() {
+        return false;
+    }
+
+    @Override
+    public Server getServer () {
+        return this.server;
+    }
+
+    @Override
     public String toString() {
         return String.format("%.3f", this.timestamp) + " " + this.customer.toString() + " served by " + this.server.toString();
     }

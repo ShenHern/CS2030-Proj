@@ -17,7 +17,6 @@ public class Wait implements Event {
         this.timestamp = timestamp;
     }
 
-
     @Override
     public double getTimestamp() {
         return this.timestamp;
@@ -36,9 +35,9 @@ public class Wait implements Event {
     @Override
     public Pair<Event, Server>execute() {
         return new Pair<Event, Server>(new Serve(this.customer, 
-                                                this.server.updateServerQueue(), 
-                                                this.server.getBusyUntil()), 
-        this.server.updateServerQueue()
+                                                this.server.updateServerQueue(this.customer.getServeTime()), 
+                                                this.server.getWaitUntil()), 
+        this.server.updateServerQueue(this.customer.getServeTime())
         );
     }
 
@@ -55,6 +54,26 @@ public class Wait implements Event {
     @Override
     public boolean isArrive() {
         return false;
+    }
+
+    @Override
+    public boolean isWait() {
+        return true;
+    }
+
+    @Override
+    public boolean isServe() {
+        return false;
+    }
+
+    @Override
+    public boolean isLeave() {
+        return false;
+    }
+
+    @Override
+    public Server getServer () {
+        return this.server;
     }
 
     @Override
