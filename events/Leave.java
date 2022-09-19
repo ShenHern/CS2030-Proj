@@ -40,7 +40,7 @@ public class Leave implements Event {
     }
 
     @Override
-    public Pair<Event, Server>execute() {
+    public Pair<Event, Server> execute() {
         return new Pair<Event, Server>(this, this.server);
     }
 
@@ -55,7 +55,7 @@ public class Leave implements Event {
     }
 
     @Override
-    public Server getServer () {
+    public Server getServer() {
         return this.server;
     }
 

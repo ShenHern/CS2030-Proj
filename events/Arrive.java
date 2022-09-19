@@ -1,4 +1,5 @@
 package events;
+
 import servers.Server;
 import customers.Customer;
 import interfaces.Event;
@@ -10,6 +11,11 @@ public class Arrive implements Event {
     private final double timestamp;
     private static final int PRIO = -1;
 
+    /**
+     * Creates instance of Arrive Event
+     * @param customer
+     * @param timestamp
+     */
     public Arrive(Customer customer, double timestamp) {
         this.customer = customer;
         this.timestamp = timestamp;
@@ -41,11 +47,20 @@ public class Arrive implements Event {
     public Pair<Event, Server> execute() {
         if (!this.server.checkCanServe(this.customer)) {
             if (this.server.checkCanWait()) {
-                return new Pair<Event, Server>(new Wait(this.customer, this.server, this.timestamp), this.server);
+                return new Pair<Event, Server>(new Wait(this.customer, 
+                                                        this.server, 
+                                                        this.timestamp), 
+                this.server);
             }
-            return new Pair<Event, Server>(new Leave(this.customer, this.server, this.timestamp), this.server);
+            return new Pair<Event, Server>(new Leave(this.customer, 
+                                                    this.server, 
+                                                    this.timestamp), 
+            this.server);
         }
-        return new Pair<Event, Server>(new Serve(this.customer, this.server, this.timestamp), this.server);
+        return new Pair<Event, Server>(new Serve(this.customer, 
+                                                this.server, 
+                                                this.timestamp), 
+        this.server);
     }
 
     @Override
@@ -64,7 +79,7 @@ public class Arrive implements Event {
     }
 
     @Override
-    public Server getServer () {
+    public Server getServer() {
         return this.server;
     }
 

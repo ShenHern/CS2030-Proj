@@ -1,4 +1,5 @@
 package servers;
+
 import customers.Customer;
 
 public class Server {
@@ -8,6 +9,11 @@ public class Server {
     private final int qmax;
     private final int qcurr;
 
+    /**
+     * Creates instance of Server
+     * @param name
+     * @param qmax
+     */
     public Server(String name, int qmax) {
         this.name = name;
         this.busyuntil = 0;
@@ -16,7 +22,15 @@ public class Server {
         this.waituntil = 0;
     }
 
-    Server(String name, double busyuntil, int qmax, int qcurr, double waituntil) {
+    /**
+     * To create instance of server internally
+     * @param name
+     * @param busyuntil
+     * @param qmax
+     * @param qcurr
+     * @param waituntil
+     */
+    private Server(String name, double busyuntil, int qmax, int qcurr, double waituntil) {
         this.name = name;
         this.busyuntil = busyuntil;
         this.qmax = qmax;
@@ -62,13 +76,18 @@ public class Server {
     }
 
     public Server updateServerQueue(double serveTime) {
-        return new Server(this.name, this.busyuntil, this.qmax, this.qcurr + 1, this.waituntil + serveTime);
+        return new Server(this.name, this.busyuntil, this.qmax, 
+            this.qcurr + 1, this.waituntil + serveTime);
     }
 
     public double getWaitUntil() {
         return this.waituntil;
     }
 
+    /**
+     * Check if able to add customer to queue
+     * @return true if can queue, false otherwise
+     */
     public boolean canQueue() {
         if (this.qcurr < this.qmax) {
             return true;

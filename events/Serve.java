@@ -1,5 +1,6 @@
 
 package events;
+
 import interfaces.Event;
 import servers.Server;
 import customers.Customer;
@@ -34,7 +35,7 @@ public class Serve implements Event {
     }
 
     @Override
-    public Pair<Event, Server>execute() {
+    public Pair<Event, Server> execute() {
         return new Pair<Event, Server>(
             new Done(this.customer, 
                     this.server.returnUpdatedServer(this.timestamp + this.customer.getServeTime()), 
@@ -59,12 +60,13 @@ public class Serve implements Event {
     }
 
     @Override
-    public Server getServer () {
+    public Server getServer() {
         return this.server;
     }
 
     @Override
     public String toString() {
-        return String.format("%.3f", this.timestamp) + " " + this.customer.toString() + " served by " + this.server.toString();
+        return String.format("%.3f", this.timestamp) + " " + 
+        this.customer.toString() + " served by " + this.server.toString();
     }
 }

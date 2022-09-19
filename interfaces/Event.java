@@ -1,4 +1,5 @@
 package interfaces;
+
 import customers.Customer;
 import servers.Server;
 import misc.Pair;
@@ -13,7 +14,7 @@ public interface Event {
     
     int getPriority();
 
-    Pair<Event, Server>execute();
+    Pair<Event, Server> execute();
 
     boolean hasNextEvent();
 
