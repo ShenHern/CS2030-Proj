@@ -11,6 +11,12 @@ public class Wait implements Event {
     private final double timestamp;
     private static final int PRIO = 0;
     
+    /**
+     * Creates instance of Wait Event.
+     * @param customer  the customer on which the Event is performed
+     * @param server    the server at which the customer waits at
+     * @param timestamp the timestamp of the event
+     */
     Wait(Customer customer, Server server, double timestamp) {
         this.customer = customer;
         this.server = server;
