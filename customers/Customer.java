@@ -24,7 +24,7 @@ public class Customer {
     }
 
     public String toString() {
-        return "customer " + this.num;
+        return String.format("%d", this.num);
     }
 
 }

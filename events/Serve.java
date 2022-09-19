@@ -36,7 +36,9 @@ public class Serve implements Event {
     @Override
     public Pair<Event, Server>execute() {
         return new Pair<Event, Server>(
-            new Done(this.customer, this.server.returnUpdatedServer(this.timestamp + this.customer.getServeTime()), this.timestamp + this.customer.getServeTime()), 
+            new Done(this.customer, 
+                    this.server.returnUpdatedServer(this.timestamp + this.customer.getServeTime()), 
+                    this.timestamp + this.customer.getServeTime()), 
             this.server.returnUpdatedServer(this.timestamp + this.customer.getServeTime())
             );
     }
@@ -58,6 +60,6 @@ public class Serve implements Event {
 
     @Override
     public String toString() {
-        return this.timestamp + " " + this.customer.toString() + " served by " + this.server.toString();
+        return String.format("%.3f", this.timestamp) + " " + this.customer.toString() + " served by " + this.server.toString();
     }
 }

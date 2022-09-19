@@ -65,6 +65,6 @@ public class Arrive implements Event {
 
     @Override
     public String toString() {
-        return this.timestamp + " " + customer.toString() + " arrives";
+        return String.format("%.3f", this.timestamp) + " " + customer.toString() + " arrives";
     }
 }

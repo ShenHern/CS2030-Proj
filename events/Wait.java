@@ -35,7 +35,11 @@ public class Wait implements Event {
 
     @Override
     public Pair<Event, Server>execute() {
-        return new Pair<Event, Server>(new Serve(this.customer, this.server.updateServerQueue(), this.server.getBusyUntil()), this.server.updateServerQueue());
+        return new Pair<Event, Server>(new Serve(this.customer, 
+                                                this.server.updateServerQueue(), 
+                                                this.server.getBusyUntil()), 
+        this.server.updateServerQueue()
+        );
     }
 
     @Override
@@ -55,6 +59,6 @@ public class Wait implements Event {
 
     @Override
     public String toString() {
-        return this.timestamp + " " + this.customer.toString() + " waits at " + this.server.toString();
+        return String.format("%.3f", this.timestamp) + " " + this.customer.toString() + " waits at " + this.server.toString();
     }
 }

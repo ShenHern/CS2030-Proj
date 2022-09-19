@@ -34,7 +34,7 @@ public class Simulator {
             Pair<Event, PQ<Event>> pr = pq.poll();
             Event e = pr.first();
             pq = pr.second();
-            //add e.toString to log of Events
+            //add e.toString to log
             logString += e.toString() + "\n";
 
             //process current event
@@ -50,6 +50,7 @@ public class Simulator {
             serverList = serverList.set(sNew.getIdx(), sNew);
 
         }
+        //add statistics to log
 
         return logString;
     }
