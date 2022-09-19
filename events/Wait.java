@@ -34,8 +34,13 @@ public class Wait implements Event {
     }
 
     @Override
-    public Pair<Event, Server>execute(Server s) {
-        return new Pair<Event, Server>(new Serve(this.customer, s, this.timestamp), s.updateServerQueue());
+    public Pair<Event, Server>execute() {
+        return new Pair<Event, Server>(new Serve(this.customer, this.server.updateServerQueue(), this.timestamp), this.server.updateServerQueue());
+    }
+
+    @Override
+    public Event updateServer(Server server) {
+        return new Wait(this.customer, this.server, this.timestamp);
     }
 
     @Override

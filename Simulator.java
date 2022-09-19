@@ -11,6 +11,7 @@ public class Simulator {
     private final int numOfServers;
     private final int qmax;
     private final ImList<Pair<Double, Double>> inpTimes;
+    private static final int CANNOT_SERVE = -1;
     
 
     Simulator(int numOfServers, int qmax, ImList<Pair<Double, Double>> inpTimes) {
@@ -27,7 +28,8 @@ public class Simulator {
         //create list of Servers
         ImList<Server> servers = createServerList();
 
-        //
+        //execute events from PQ
+
 
 
         return "";
@@ -46,9 +48,21 @@ public class Simulator {
     private ImList<Server> createServerList() {
         ImList<Server> serverList = new ImList<Server>();
         for (int i = 0; i < numOfServers; i++) {
-            Server s = new Server(String.valueOf(i), this.qmax);
+            Server s = new Server(String.valueOf(i + 1), this.qmax);
             serverList = serverList.add(s);
         }
         return serverList;
+    }
+
+    private Pair<Event, Server> processEvent(Event event, ImList<Server> serverList) {
+        if (event.isArrive()) {
+            for (Server server : serverList) {
+                if (server.checkCanServe(event.getCustomer().getArrivalTime()) != CANNOT_SERVE) {
+                    return new Pair<Event, Server>(event.execute(server).first(), event.execute(server).second());
+                }
+            }
+
+
+        }
     }
 }

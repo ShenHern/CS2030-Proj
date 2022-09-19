@@ -35,6 +35,10 @@ public class Server {
         }
     }
 
+    public boolean checkCanWait() {
+        return qcurr < qmax;
+    }
+
     private Server updateServerBusyUntil(double serveTime) {
         int newqcurr = 0;
         if (this.qcurr > 0) {

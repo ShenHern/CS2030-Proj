@@ -8,12 +8,14 @@ import servers.Server;
 
 public class Leave implements Event {
     private final Customer customer;
+    private final Server server;
     private final double timestamp;
     private static final int PRIO = 0;
 
     
-    Leave(Customer customer, double timestamp) {
+    Leave(Customer customer, Server server, double timestamp) {
         this.customer = customer;
+        this.server = server;
         this.timestamp = timestamp;
     }
 
@@ -38,13 +40,18 @@ public class Leave implements Event {
     }
 
     @Override
-    public Pair<Event, Server>execute(Server s) {
-        return new Pair<Event, Server>(this, s);
+    public Pair<Event, Server>execute() {
+        return new Pair<Event, Server>(this, this.server);
     }
 
     @Override
     public boolean isArrive() {
         return false;
+    }
+
+    @Override
+    public Event updateServer(Server server) {
+        return new Leave(this.customer, server, this.timestamp);
     }
 
     @Override

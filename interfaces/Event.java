@@ -13,9 +13,11 @@ public interface Event {
     
     int getPriority();
 
-    Pair<Event, Server>execute(Server server);
+    Pair<Event, Server>execute();
 
     boolean hasNextEvent();
 
     boolean isArrive();
+
+    Event updateServer(Server server);
 }

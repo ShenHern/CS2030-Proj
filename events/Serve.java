@@ -34,11 +34,16 @@ public class Serve implements Event {
     }
 
     @Override
-    public Pair<Event, Server>execute(Server s) {
+    public Pair<Event, Server>execute() {
         return new Pair<Event, Server>(
-            new Done(this.customer, s, this.timestamp + this.customer.getServeTime()), 
-            s.returnUpdatedServer(this.customer)
+            new Done(this.customer, this.server.returnUpdatedServer(this.customer), this.timestamp + this.customer.getServeTime()), 
+            this.server.returnUpdatedServer(this.customer)
             );
+    }
+
+    @Override
+    public Event updateServer(Server server) {
+        return new Serve(this.customer, server, this.timestamp);
     }
 
     @Override

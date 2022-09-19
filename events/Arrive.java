@@ -6,6 +6,7 @@ import misc.Pair;
 
 public class Arrive implements Event {
     private final Customer customer;
+    private final Server server;
     private static final int CANNOT_SERVE = -1;
     private final double timestamp;
     private static final int PRIO = -1;
@@ -13,6 +14,13 @@ public class Arrive implements Event {
     public Arrive(Customer customer, double timestamp) {
         this.customer = customer;
         this.timestamp = timestamp;
+        this.server = new Server("", 0);
+    }
+
+    Arrive(Customer customer, Server server, double timestamp) {
+        this.customer = customer;
+        this.timestamp = timestamp;
+        this.server = server;
     }
 
     @Override
@@ -31,13 +39,16 @@ public class Arrive implements Event {
     }
 
     @Override
-    public Pair<Event, Server> execute(Server s) {
-        int serve = s.checkCanServe(this.customer.getArrivalTime());
+    public Pair<Event, Server> execute() {
+        int serve = this.server.checkCanServe(this.customer.getArrivalTime());
 
         if (serve == CANNOT_SERVE) {
-            return new Pair<Event, Server>(new Leave(this.customer, this.timestamp), s);
+            if (this.server.checkCanWait()) {
+                return new Pair<Event, Server>(new Wait(this.customer, this.server, this.timestamp), this.server);
+            }
+            return new Pair<Event, Server>(new Leave(this.customer, this.server, this.timestamp), this.server);
         }
-        return new Pair<Event, Server>(new Serve(this.customer, s, this.timestamp), s);
+        return new Pair<Event, Server>(new Serve(this.customer, this.server, this.timestamp), this.server);
     }
 
     @Override
@@ -48,6 +59,11 @@ public class Arrive implements Event {
     @Override
     public boolean isArrive() {
         return true;
+    }
+
+    @Override
+    public Event updateServer(Server server) {
+        return new Arrive(this.customer, server, this.timestamp);
     }
 
     @Override

@@ -33,13 +33,18 @@ public class Done implements Event {
     }
 
     @Override
-    public Pair<Event, Server>execute(Server s) {
-        return new Pair<Event, Server>(this, s);
+    public Pair<Event, Server>execute() {
+        return new Pair<Event, Server>(this, this.server);
     }
 
     @Override
     public boolean hasNextEvent() {
         return false;
+    }
+
+    @Override
+    public Event updateServer(Server server) {
+        return new Done(this.customer, server, this.timestamp);
     }
 
     @Override
