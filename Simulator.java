@@ -56,13 +56,20 @@ public class Simulator {
 
     private Pair<Event, Server> processEvent(Event event, ImList<Server> serverList) {
         if (event.isArrive()) {
+            //loop through servers to find idle server
             for (Server server : serverList) {
-                if (server.checkCanServe(event.getCustomer().getArrivalTime()) != CANNOT_SERVE) {
-                    return new Pair<Event, Server>(event.execute(server).first(), event.execute(server).second());
+                if (server.checkCanServe(event.getCustomer()) != CANNOT_SERVE) {
+                    event = event.updateServer(server);
+                    return event.execute();
                 }
             }
-
-
+            //loop through servers to find server with available queue
+            for (Server server : serverList) {
+                if (server.checkCanWait()) {
+                    event = event.updateServer(server);
+                    return event.execute();
+                }
+            }
         }
     }
 }

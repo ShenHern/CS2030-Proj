@@ -25,7 +25,8 @@ public class Server {
         this.qcurr = qcurr;
     }
 
-    public int checkCanServe(double arriveTime) {
+    public int checkCanServe(Customer customer) {
+        double arriveTime = customer.getArrivalTime();
         if (Math.abs(arriveTime - busyuntil) <= EPSILON) {
             return CAN_SERVE_ARR_TIME_EQUAL;
         } else if (arriveTime + EPSILON > busyuntil) {
@@ -56,9 +57,9 @@ public class Server {
     }
 
     public Server returnUpdatedServer(Customer customer) {
-        if (this.checkCanServe(customer.getArrivalTime()) == CAN_SERVE_ARR_TIME_EQUAL) {
+        if (this.checkCanServe(customer) == CAN_SERVE_ARR_TIME_EQUAL) {
             return this.updateServerBusyUntil(customer.getServeTime());
-        } else if (this.checkCanServe(customer.getArrivalTime()) == CAN_SERVE_ARR_TIME_MORE_THAN) {
+        } else if (this.checkCanServe(customer) == CAN_SERVE_ARR_TIME_MORE_THAN) {
             return this.updateServerBusyUntil(customer.getArrivalTime(), customer.getServeTime());
         } else {
             return this;

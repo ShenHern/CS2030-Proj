@@ -40,7 +40,7 @@ public class Arrive implements Event {
 
     @Override
     public Pair<Event, Server> execute() {
-        int serve = this.server.checkCanServe(this.customer.getArrivalTime());
+        int serve = this.server.checkCanServe(this.customer);
 
         if (serve == CANNOT_SERVE) {
             if (this.server.checkCanWait()) {
