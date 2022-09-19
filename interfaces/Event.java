@@ -17,13 +17,7 @@ public interface Event {
 
     boolean hasNextEvent();
 
-    boolean isArrive();
-
-    boolean isWait();
-
-    boolean isServe();
-
-    boolean isLeave();
+    String getType();
 
     Server getServer();
 

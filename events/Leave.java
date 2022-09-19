@@ -45,23 +45,8 @@ public class Leave implements Event {
     }
 
     @Override
-    public boolean isArrive() {
-        return false;
-    }
-
-    @Override
-    public boolean isWait() {
-        return false;
-    }
-
-    @Override
-    public boolean isServe() {
-        return false;
-    }
-
-    @Override
-    public boolean isLeave() {
-        return true;
+    public String getType() {
+        return "LEAVE";
     }
 
     @Override

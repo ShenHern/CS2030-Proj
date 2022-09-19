@@ -52,23 +52,8 @@ public class Wait implements Event {
     }
 
     @Override
-    public boolean isArrive() {
-        return false;
-    }
-
-    @Override
-    public boolean isWait() {
-        return true;
-    }
-
-    @Override
-    public boolean isServe() {
-        return false;
-    }
-
-    @Override
-    public boolean isLeave() {
-        return false;
+    public String getType() {
+        return "WAIT";
     }
 
     @Override

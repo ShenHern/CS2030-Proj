@@ -52,14 +52,14 @@ public class Simulator {
             //update serverList with updated Server
             serverList = serverList.set(sNew.getIdx(), sNew);
             //adding up total waiting time
-            if (e.isWait()) {
+            if (e.getType() == "WAIT") {
                 avgWaitTime += e.getServer().getWaitUntil() - e.getTimestamp();
             }
             //adding up num of customers served
-            if (e.isServe()) {
+            if (e.getType() == "SERVE") {
                 customersServed += 1;
             }
-            if (e.isLeave()) {
+            if (e.getType() == "LEAVE") {
                 customersLeft += 1;
             }
         }
@@ -90,7 +90,7 @@ public class Simulator {
     }
 
     private Pair<Event, Server> processEvent(Event event, ImList<Server> serverList) {
-        if (event.isArrive()) {
+        if (event.getType() == "ARRIVE") {
             //loop through servers to find idle server
             for (Server server : serverList) {
                 if (server.checkCanServe(event.getCustomer())) {
@@ -105,6 +105,7 @@ public class Simulator {
                     return event.execute();
                 }
             }
+            //leave
             event = event.updateServer(serverList.get(0));
             return event.execute();
         }

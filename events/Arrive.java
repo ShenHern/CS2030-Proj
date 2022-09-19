@@ -54,23 +54,8 @@ public class Arrive implements Event {
     }
 
     @Override
-    public boolean isArrive() {
-        return true;
-    }
-
-    @Override
-    public boolean isWait() {
-        return false;
-    }
-
-    @Override
-    public boolean isServe() {
-        return false;
-    }
-
-    @Override
-    public boolean isLeave() {
-        return false;
+    public String getType() {
+        return "ARRIVE";
     }
 
     @Override
