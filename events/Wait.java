@@ -64,7 +64,7 @@ public class Wait implements Event {
     @Override
     public String toString() {
         return String.format("%.3f", this.timestamp) + 
-        " " + this.customer.toString() + 
-        " waits at " + this.server.toString();
+            " " + this.customer.toString() + 
+            " waits at " + this.server.toString();
     }
 }

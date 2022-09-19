@@ -18,10 +18,12 @@ public class Simulator {
         this.qmax = qmax;
         this.inpTimes = inpTimes;
     } 
+    
     /**
-     * Method to simulate the whole sequence of Events
-     * @return logString which represents the whole sequence of Events
+     * Method to simulate the whole sequence of Events.
+     * @return a String which represents the whole sequence of Events
      */
+
     public String simulate() {
         String logString = "";
         double avgWaitTime = 0.0;
@@ -78,7 +80,7 @@ public class Simulator {
         for (int i = 0; i < this.inpTimes.size(); i++) {
             Customer customer = new Customer(i + 1, this.inpTimes.get(i).first(), 
                                             this.inpTimes.get(i).second());
-                                            
+
             Arrive a = new Arrive(customer, this.inpTimes.get(i).first());
             newpq = newpq.add(a);
         }

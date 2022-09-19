@@ -10,9 +10,9 @@ public class Server {
     private final int qcurr;
 
     /**
-     * Creates instance of Server
-     * @param name
-     * @param qmax
+     * Creates instance of Server.
+     * @param name  name of the server
+     * @param qmax  the maximum number of customers that can queue at the server
      */
     public Server(String name, int qmax) {
         this.name = name;
@@ -23,12 +23,12 @@ public class Server {
     }
 
     /**
-     * To create instance of server internally
-     * @param name
-     * @param busyuntil
-     * @param qmax
-     * @param qcurr
-     * @param waituntil
+     * To create instance of server internally.
+     * @param name  name of server
+     * @param busyuntil the time the server is busy until while serving a customer
+     * @param qmax  the maximum number of customers to that can queue at the server
+     * @param qcurr the current number of customers in the queue
+     * @param waituntil the time that a customer will have to wait until if it queues up
      */
     private Server(String name, double busyuntil, int qmax, int qcurr, double waituntil) {
         this.name = name;
@@ -41,7 +41,12 @@ public class Server {
             this.waituntil = waituntil;
         }
     }
-
+    
+    /**
+     * Check if the server can serve a given customer.
+     * @param customer  The customer to check
+     * @return  true if customer can be served, false otherwise
+     */
     public boolean checkCanServe(Customer customer) {
         double arriveTime = customer.getArrivalTime();
         if (Double.compare(arriveTime, busyuntil) >= 0) {
@@ -85,7 +90,7 @@ public class Server {
     }
 
     /**
-     * Check if able to add customer to queue
+     * Check if able to add customer to queue.
      * @return true if can queue, false otherwise
      */
     public boolean canQueue() {

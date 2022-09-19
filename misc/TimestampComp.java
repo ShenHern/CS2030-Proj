@@ -7,7 +7,7 @@ import interfaces.Event;
 public class TimestampComp implements Comparator<Event> {
 
     /**
-     * Method to compare the order in which Events are polled from the PQ
+     * Method to compare the order in which Events are polled from the PQ.
      * @return the order in which Events are polled from the PQ
      */
     public int compare(Event event1, Event event2) {

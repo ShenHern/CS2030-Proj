@@ -61,7 +61,7 @@ public class Done implements Event {
     @Override
     public String toString() {
         return String.format("%.3f", this.timestamp) + 
-        " " + this.customer.toString() + 
-        " done serving by " + this.server.toString();
+            " " + this.customer.toString() + 
+            " done serving by " + this.server.toString();
     }
 }

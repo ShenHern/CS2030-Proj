@@ -12,9 +12,9 @@ public class Arrive implements Event {
     private static final int PRIO = -1;
 
     /**
-     * Creates instance of Arrive Event
-     * @param customer
-     * @param timestamp
+     * Creates instance of Arrive Event.
+     * @param customer customer instance that the Event is performed on
+     * @param timestamp the timestamp of the event
      */
     public Arrive(Customer customer, double timestamp) {
         this.customer = customer;

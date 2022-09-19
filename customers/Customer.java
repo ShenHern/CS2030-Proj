@@ -6,10 +6,10 @@ public class Customer {
     private final double serveTime;
 
     /**
-     * Creates instance of Customer
-     * @param customerNum
-     * @param arriveTime
-     * @param serveTime
+     * Creates instance of Customer.
+     * @param customerNum customer number dictated by the order in which he arrived
+     * @param arriveTime the time the customer arrived
+     * @param serveTime the time it takes to serve the customer
      */
     public Customer(int customerNum, double arriveTime, double serveTime) {
         this.num = customerNum;
