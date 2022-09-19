@@ -6,10 +6,6 @@ public class Server {
     private final String name;
     private final int qmax;
     private final int qcurr;
-    private static final double EPSILON = 1e-15;
-    private static final int CAN_SERVE_ARR_TIME_EQUAL = 1;
-    private static final int CAN_SERVE_ARR_TIME_MORE_THAN = 0;
-    private static final int CANNOT_SERVE = -1;
 
     public Server(String name, int qmax) {
         this.name = name;
@@ -25,14 +21,12 @@ public class Server {
         this.qcurr = qcurr;
     }
 
-    public int checkCanServe(Customer customer) {
+    public boolean checkCanServe(Customer customer) {
         double arriveTime = customer.getArrivalTime();
-        if (Math.abs(arriveTime - busyuntil) <= EPSILON) {
-            return CAN_SERVE_ARR_TIME_EQUAL;
-        } else if (arriveTime + EPSILON > busyuntil) {
-            return CAN_SERVE_ARR_TIME_MORE_THAN;
+        if (Double.compare(arriveTime, busyuntil) >= 0) {
+            return true;
         } else {
-            return CANNOT_SERVE;
+            return false;
         }
     }
 
@@ -40,30 +34,24 @@ public class Server {
         return qcurr < qmax;
     }
 
-    private Server updateServerBusyUntil(double serveTime) {
+    // private Server updateServerBusyUntil(double serveTime) {
+    //     int newqcurr = 0;
+    //     if (this.qcurr > 0) {
+    //         newqcurr = this.qcurr - 1;
+    //     }
+    //     return new Server(this.name, this.busyuntil + serveTime, this.qmax, newqcurr);
+    // }
+
+    private Server updateServerBusyUntil(double newBusyUntil) {
         int newqcurr = 0;
         if (this.qcurr > 0) {
             newqcurr = this.qcurr - 1;
         }
-        return new Server(this.name, this.busyuntil + serveTime, this.qmax, newqcurr);
+        return new Server(this.name, newBusyUntil, this.qmax, newqcurr);
     }
 
-    private Server updateServerBusyUntil(double arriveTime, double serveTime) {
-        int newqcurr = 0;
-        if (this.qcurr > 0) {
-            newqcurr = this.qcurr - 1;
-        }
-        return new Server(this.name, arriveTime + serveTime, this.qmax, newqcurr);
-    }
-
-    public Server returnUpdatedServer(Customer customer) {
-        if (this.checkCanServe(customer) == CAN_SERVE_ARR_TIME_EQUAL) {
-            return this.updateServerBusyUntil(customer.getServeTime());
-        } else if (this.checkCanServe(customer) == CAN_SERVE_ARR_TIME_MORE_THAN) {
-            return this.updateServerBusyUntil(customer.getArrivalTime(), customer.getServeTime());
-        } else {
-            return this;
-        }
+    public Server returnUpdatedServer(double newBusyUntil) {
+        return updateServerBusyUntil(newBusyUntil);
     }
 
     public Server updateServerQueue() {
@@ -75,6 +63,14 @@ public class Server {
             return true;
         }
         return false;
+    }
+
+    public int getIdx() {
+        return Integer.parseInt(this.name) - 1;
+    }
+
+    public double getBusyUntil() {
+        return this.busyuntil;
     }
 
     @Override
