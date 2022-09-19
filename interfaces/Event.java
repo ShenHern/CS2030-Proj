@@ -17,5 +17,5 @@ public interface Event {
 
     boolean hasNextEvent();
 
-
+    boolean isArrive();
 }

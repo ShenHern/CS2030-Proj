@@ -5,13 +5,14 @@ import servers.Server;
 import customers.Customer;
 import misc.Pair;
 
-public class Done implements Event {
+public class Serve implements Event {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
-    private static final int PRIO = 1;
+    private static final int PRIO = 0;
 
-    Done(Customer customer, Server server, double timestamp) {
+
+    Serve(Customer customer, Server server, double timestamp) {
         this.customer = customer;
         this.server = server;
         this.timestamp = timestamp;
@@ -29,17 +30,20 @@ public class Done implements Event {
 
     @Override
     public int getPriority() {
-        return Done.PRIO;
+        return Serve.PRIO;
     }
 
     @Override
     public Pair<Event, Server>execute(Server s) {
-        return new Pair<Event, Server>(this, s);
+        return new Pair<Event, Server>(
+            new Done(this.customer, s, this.timestamp + this.customer.getServeTime()), 
+            s.returnUpdatedServer(this.customer)
+            );
     }
 
     @Override
     public boolean hasNextEvent() {
-        return false;
+        return true;
     }
 
     @Override
@@ -49,6 +53,6 @@ public class Done implements Event {
 
     @Override
     public String toString() {
-        return this.timestamp + " " + this.customer.toString() + " done serving by " + this.server.toString();
+        return this.timestamp + " " + this.customer.toString() + " served by " + this.server.toString();
     }
 }

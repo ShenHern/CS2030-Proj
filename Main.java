@@ -15,7 +15,7 @@ class Main {
         File fin = new File("test.in");
         Scanner sc = new Scanner(fin);
         String name = sc.nextLine();
-        Server server = new Server(name);
+        Server server = new Server(name, 0);
 
         while (sc.hasNextDouble()) {
             count++;

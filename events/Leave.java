@@ -43,6 +43,11 @@ public class Leave implements Event {
     }
 
     @Override
+    public boolean isArrive() {
+        return false;
+    }
+
+    @Override
     public String toString() {
         return this.timestamp + " " + customer.toString() + " leaves";
     }

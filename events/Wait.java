@@ -1,22 +1,22 @@
-
 package events;
-import interfaces.Event;
-import servers.Server;
-import customers.Customer;
-import misc.Pair;
 
-public class Served implements Event {
+import customers.Customer;
+import interfaces.Event;
+import misc.Pair;
+import servers.Server;
+
+public class Wait implements Event {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
     private static final int PRIO = 0;
-
-
-    Served(Customer customer, Server server, double timestamp) {
+    
+    Wait(Customer customer, Server server, double timestamp) {
         this.customer = customer;
         this.server = server;
         this.timestamp = timestamp;
     }
+
 
     @Override
     public double getTimestamp() {
@@ -30,15 +30,12 @@ public class Served implements Event {
 
     @Override
     public int getPriority() {
-        return Served.PRIO;
+        return Wait.PRIO;
     }
 
     @Override
     public Pair<Event, Server>execute(Server s) {
-        return new Pair<Event, Server>(
-            new Done(this.customer, s, this.timestamp + this.customer.getServeTime()), 
-            s.returnUpdatedServer(this.customer)
-            );
+        return new Pair<Event, Server>(new Serve(this.customer, s, this.timestamp), s.updateServerQueue());
     }
 
     @Override
@@ -47,7 +44,12 @@ public class Served implements Event {
     }
 
     @Override
+    public boolean isArrive() {
+        return false;
+    }
+
+    @Override
     public String toString() {
-        return this.timestamp + " " + this.customer.toString() + " served by " + this.server.toString();
+        return this.timestamp + " " + this.customer.toString() + " waits at " + this.server.toString();
     }
 }

@@ -37,11 +37,16 @@ public class Arrive implements Event {
         if (serve == CANNOT_SERVE) {
             return new Pair<Event, Server>(new Leave(this.customer, this.timestamp), s);
         }
-        return new Pair<Event, Server>(new Served(this.customer, s, this.timestamp), s);
+        return new Pair<Event, Server>(new Serve(this.customer, s, this.timestamp), s);
     }
 
     @Override
     public boolean hasNextEvent() {
+        return true;
+    }
+
+    @Override
+    public boolean isArrive() {
         return true;
     }
 
