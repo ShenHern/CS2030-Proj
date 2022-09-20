@@ -62,7 +62,7 @@ public class Simulator {
         }
         //add statistics to log
         avgWaitTime /= customersServed;
-        logString += String.format("[%.3f, %d, %d]", avgWaitTime, customersServed, customersLeft);
+        logString += String.format("[%.3f %d %d]", avgWaitTime, customersServed, customersLeft);
 
         return logString;
     }
@@ -109,6 +109,7 @@ public class Simulator {
             return event.execute();
         }
         //execute any other event that is not Arrive
+        event = event.updateServer(serverList.get(event.getServer().getIdx()));
         return event.execute();
     }
 }

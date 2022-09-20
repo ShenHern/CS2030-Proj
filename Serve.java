@@ -59,6 +59,6 @@ public class Serve implements Event {
     @Override
     public String toString() {
         return String.format("%.3f", this.timestamp) + " " + 
-        this.customer.toString() + " served by " + this.server.toString();
+        this.customer.toString() + " serves by " + this.server.toString();
     }
 }
