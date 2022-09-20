@@ -18,7 +18,7 @@ public class Simulator {
         this.qmax = qmax;
         this.inpTimes = inpTimes;
     } 
-    
+
     /**
      * Method to simulate the whole sequence of Events.
      * @return a String which represents the whole sequence of Events
@@ -64,6 +64,7 @@ public class Simulator {
             if (e.getType() == "SERVE") {
                 customersServed += 1;
             }
+            //adding up num of customers left
             if (e.getType() == "LEAVE") {
                 customersLeft += 1;
             }
