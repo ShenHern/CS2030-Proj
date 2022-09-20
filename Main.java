@@ -1,6 +1,4 @@
 import java.util.Scanner;
-import misc.ImList;
-import misc.Pair;
 import java.io.File;
 
 class Main {

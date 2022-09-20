@@ -1,12 +1,3 @@
-import customers.Customer;
-import events.Arrive;
-import interfaces.Event;
-import misc.ImList;
-import misc.PQ;
-import misc.Pair;
-import misc.TimestampComp;
-import servers.Server;
-
 public class Simulator {
     private final int numOfServers;
     private final int qmax;
