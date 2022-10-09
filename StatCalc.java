@@ -3,8 +3,7 @@ public class StatCalc {
     private final int customersServed;
     private final int customersLeft;
 
-
-    StatCalc () {
+    StatCalc() {
         this.totalWaitTime = 0;
         this.customersServed = 0;
         this.customersLeft = 0;
@@ -16,15 +15,23 @@ public class StatCalc {
         this.customersLeft = customersLeft;
     }
 
+    /**
+     * method that updates the simulation statistics after each event is processed.
+     * 
+     * @param e the event that was processed in the simulation
+     * @return an updated StatCalc with the updated simulation statistics
+     */
     public StatCalc updateStats(Event e) {
         if (e.getType() == "WAIT") {
-            return new StatCalc(this.totalWaitTime + e.getServer().getWaitUntil() - e.getTimestamp(), this.customersServed, this.customersLeft);
+            return new StatCalc(this.totalWaitTime +
+                    e.getServer().getWaitUntil() - e.getTimestamp(),
+                    this.customersServed, this.customersLeft);
         }
-        //adding up num of customers served
+        // adding up num of customers served
         if (e.getType() == "SERVE") {
             return new StatCalc(this.totalWaitTime, this.customersServed + 1, this.customersLeft);
         }
-        //adding up num of customers left
+        // adding up num of customers left
         if (e.getType() == "LEAVE") {
             return new StatCalc(this.totalWaitTime, this.customersServed, this.customersLeft + 1);
         }
