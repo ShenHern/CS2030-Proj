@@ -23,7 +23,7 @@ public class Simulator {
         pq = addArrives(pq);
 
         //create list of Servers
-        ImList<Server> serverList = createServerList();
+        ImList<Server> serverList = ServerList.createServerList(this.numOfServers, this.qmax);
 
         //instantiating StatCalc
         StatCalc statCalc = new StatCalc();
@@ -37,16 +37,10 @@ public class Simulator {
             logString += e.toString() + "\n";
 
             //process current event
-            Pair<Event, Server> pr2 = processEvent(e, serverList);
-            Event eNew = pr2.first();
-            Server sNew = pr2.second();
+            Pair<PQ<Event>, ImList<Server>> pr2 = EventProcessor.processEvent(e, serverList, pq);
+            pq = pr2.first();
+            serverList = pr2.second();
 
-            //update PQ with new Event
-            if (e.hasNextEvent()) {
-                pq = pq.add(eNew);
-            }
-            //update serverList with updated Server
-            serverList = serverList.set(sNew.getIdx(), sNew);
             //calculating statistics
             statCalc = statCalc.updateStats(e);
         }
@@ -70,39 +64,5 @@ public class Simulator {
             newpq = newpq.add(a);
         }
         return newpq;
-    }
-    
-    private ImList<Server> createServerList() {
-        ImList<Server> serverList = new ImList<Server>();
-        for (int i = 0; i < numOfServers; i++) {
-            Server s = new Server(String.valueOf(i + 1), this.qmax);
-            serverList = serverList.add(s);
-        }
-        return serverList;
-    }
-
-    private Pair<Event, Server> processEvent(Event event, ImList<Server> serverList) {
-        if (event.getType() == "ARRIVE") {
-            //loop through servers to find idle server
-            for (Server server : serverList) {
-                if (server.checkCanServe(event.getCustomer())) {
-                    event = event.updateServer(server);
-                    return event.execute();
-                }
-            }
-            //loop through servers to find server with available queue
-            for (Server server : serverList) {
-                if (server.checkCanWait()) {
-                    event = event.updateServer(server);
-                    return event.execute();
-                }
-            }
-            //leave
-            event = event.updateServer(serverList.get(0));
-            return event.execute();
-        }
-        //execute any other event that is not Arrive
-        event = event.updateServer(serverList.get(event.getServer().getIdx()));
-        return event.execute();
     }
 }
