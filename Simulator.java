@@ -17,9 +17,6 @@ public class Simulator {
 
     public String simulate() {
         String logString = "";
-        double avgWaitTime = 0.0;
-        int customersServed = 0;
-        int customersLeft = 0;
 
         //add Arrive Events to PQ
         PQ<Event> pq = new PQ<Event>(new TimestampComp());
@@ -27,6 +24,9 @@ public class Simulator {
 
         //create list of Servers
         ImList<Server> serverList = createServerList();
+
+        //instantiating StatCalc
+        StatCalc statCalc = new StatCalc();
 
         //execute events from PQ
         while (!pq.isEmpty()) {
@@ -47,22 +47,15 @@ public class Simulator {
             }
             //update serverList with updated Server
             serverList = serverList.set(sNew.getIdx(), sNew);
-            //adding up total waiting time
-            if (e.getType() == "WAIT") {
-                avgWaitTime += e.getServer().getWaitUntil() - e.getTimestamp();
-            }
-            //adding up num of customers served
-            if (e.getType() == "SERVE") {
-                customersServed += 1;
-            }
-            //adding up num of customers left
-            if (e.getType() == "LEAVE") {
-                customersLeft += 1;
-            }
+            //calculating statistics
+            statCalc = statCalc.updateStats(e);
         }
+
         //add statistics to log
-        avgWaitTime /= customersServed;
-        logString += String.format("[%.3f %d %d]", avgWaitTime, customersServed, customersLeft);
+        logString += String.format("[%.3f %d %d]", 
+                statCalc.avgWaitTime(), 
+                statCalc.customersServed(), 
+                statCalc.customersLeft());
 
         return logString;
     }
