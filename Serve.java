@@ -34,10 +34,11 @@ public class Serve implements WaitableEvent {
     public Pair<Event, Server> execute() {
         return new Pair<Event, Server>(
                 new Done(this.customer,
-                    this.server.updateServerBusyUntil(this.timestamp + this.customer.getServeTime()),
+                    this.server.updateServerBusyUntil(
+                        this.timestamp + this.customer.getServeTime()),
                     this.timestamp + this.customer.getServeTime()),
             this.server.updateServerBusyUntil(this.timestamp + this.customer.getServeTime()));
-}
+    }
 
     @Override
     public Event updateServer(Server server) {
