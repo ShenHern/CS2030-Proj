@@ -46,10 +46,7 @@ public class EventProcessor {
             pq = pq.add(eNew);
         }
 
-        // update serverList with update Server
-        serverList = serverList.set(sNew.getIdx(), sNew);
-
         // return updated PQ<Event> and ImList<Server>
-        return new Pair<PQ<Event>, ImList<Server>>(pq, serverList);
+        return new Pair<PQ<Event>, ImList<Server>>(pq, serverList.set(sNew.getIdx(), sNew));
     }
 }

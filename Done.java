@@ -27,12 +27,18 @@ public class Done implements Event {
 
     @Override
     public Pair<Event, Server> execute() {
+        if (this.server.getQCurr() > 0) {
+            return new Pair<Event, Server>(
+                new Serve(this.server.getNextCustomer(), this.server, this.timestamp),
+                this.server
+            );
+        }
         return new Pair<Event, Server>(this, this.server);
     }
 
     @Override
     public boolean hasNextEvent() {
-        return false;
+        return this.server.getQCurr() > 0;
     }
 
     @Override

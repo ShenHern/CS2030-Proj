@@ -33,21 +33,20 @@ public class Wait implements Event {
 
     @Override
     public Pair<Event, Server> execute() {
-        return new Pair<Event, Server>(new Serve(this.customer, 
-            this.server.updateServerQueue(this.customer.getServeTime()), 
-            this.server.getWaitUntil()), 
-        this.server.updateServerQueue(this.customer.getServeTime())
+        //terminating event return itself
+        return new Pair<Event, Server>(this, 
+            this.server.updateServerQueue(this.customer)
         );
     }
 
     @Override
     public Event updateServer(Server server) {
-        return new Wait(this.customer, this.server, this.timestamp);
+        return new Wait(this.customer, server, this.timestamp);
     }
 
     @Override
     public boolean hasNextEvent() {
-        return true;
+        return false;
     }
 
     @Override
