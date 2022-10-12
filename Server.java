@@ -55,6 +55,11 @@ public class Server {
         }
     }
 
+    public boolean checkCanServeQ(Customer customer, double timestamp) {
+        return (customer.getNumber() == this.customerQueue.get(0).getNumber())
+            && (timestamp == this.busyuntil);
+    }
+
     public boolean checkCanWait() {
         return qcurr < qmax;
     }

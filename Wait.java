@@ -34,7 +34,8 @@ public class Wait implements Event {
     @Override
     public Pair<Event, Server> execute() {
         //terminating event return itself
-        return new Pair<Event, Server>(this, 
+        return new Pair<Event, Server>(
+            new Buffer(this.customer, this.server, this.server.getBusyUntil()), 
             this.server.updateServerQueue(this.customer)
         );
     }
@@ -46,7 +47,7 @@ public class Wait implements Event {
 
     @Override
     public boolean hasNextEvent() {
-        return false;
+        return true;
     }
 
     @Override

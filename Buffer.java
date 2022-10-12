@@ -2,7 +2,7 @@ class Buffer implements Event {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
-    private static final int PRIO = 1;
+    private static final int PRIO = 0;
 
     Buffer(Customer customer, Server server, double timestamp) {
         this.customer = customer;
@@ -27,10 +27,15 @@ class Buffer implements Event {
 
     @Override
     public Pair<Event, Server> execute() {
+        if (this.server.checkCanServeQ(this.customer, this.timestamp)) {
+            return new Pair<Event, Server>(
+                    new Serve(this.customer, this.server, this.timestamp),
+                    this.server);
+        }
         return new Pair<Event, Server>(
-            new Serve(this.customer, this.server, this.timestamp),
-            this.server
-        );
+                new Buffer(this.customer, this.server,
+                        this.server.getBusyUntil()),
+                this.server);
     }
 
     @Override
