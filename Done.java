@@ -26,8 +26,9 @@ public class Done implements Event {
     }
 
     @Override
-    public Pair<Event, Server> execute() {
-        return new Pair<Event, Server>(this, this.server);
+    public Pair<Event, ServerList> execute(ServerList serverList) {
+        Server server = serverList.getServer(this.server.getIdx());
+        return new Pair<Event, ServerList>(this, serverList.updateServer(server));
     }
 
     @Override
@@ -54,6 +55,6 @@ public class Done implements Event {
     public String toString() {
         return String.format("%.3f", this.timestamp) + 
             " " + this.customer.toString() + 
-            " done serving by " + this.server.toString();
+            " done serving by " + this.server.toString() + "\n";
     }
 }

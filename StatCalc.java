@@ -22,14 +22,11 @@ public class StatCalc {
      * @return an updated StatCalc with the updated simulation statistics
      */
     public StatCalc updateStats(Event e) {
-        if (e.getType() == "WAIT") {
-            return new StatCalc(this.totalWaitTime +
-                    e.getServer().getWaitUntil() - e.getTimestamp(),
-                    this.customersServed, this.customersLeft);
-        }
-        // adding up num of customers served
+        // adding up wait time and num of customers served
         if (e.getType() == "SERVE") {
-            return new StatCalc(this.totalWaitTime, this.customersServed + 1, this.customersLeft);
+            WaitableEvent wait = (WaitableEvent) e;
+            return new StatCalc(this.totalWaitTime + wait.getWaitTime(),
+                    this.customersServed + 1, this.customersLeft);
         }
         // adding up num of customers left
         if (e.getType() == "LEAVE") {

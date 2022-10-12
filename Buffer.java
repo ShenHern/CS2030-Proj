@@ -1,16 +1,10 @@
-public class Wait implements Event {
+class Buffer implements Event {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
     private static final int PRIO = 0;
-    
-    /**
-     * Creates instance of Wait Event.
-     * @param customer  the customer on which the Event is performed
-     * @param server    the server at which the customer waits at
-     * @param timestamp the timestamp of the event
-     */
-    Wait(Customer customer, Server server, double timestamp) {
+
+    Buffer(Customer customer, Server server, double timestamp) {
         this.customer = customer;
         this.server = server;
         this.timestamp = timestamp;
@@ -28,21 +22,21 @@ public class Wait implements Event {
 
     @Override
     public int getPriority() {
-        return Wait.PRIO;
+        return Buffer.PRIO;
     }
 
     @Override
     public Pair<Event, ServerList> execute(ServerList serverList) {
         Server server = serverList.getServer(this.server.getIdx());
+        if (server.checkCanServeQ(this.customer, this.timestamp)) {
+            return new Pair<Event, ServerList>(
+                    new Serve(this.customer, server, this.timestamp),
+                    serverList.updateServer(server));
+        }
         return new Pair<Event, ServerList>(
-            new Buffer(this.customer, server, server.getBusyUntil()), 
-            serverList.updateServer(server.updateServerQueue(this.customer))
-        );
-    }
-
-    @Override
-    public Event updateServer(Server server) {
-        return new Wait(this.customer, server, this.timestamp);
+                new Buffer(this.customer, server,
+                        server.getBusyUntil()),
+                serverList.updateServer(server));
     }
 
     @Override
@@ -51,8 +45,13 @@ public class Wait implements Event {
     }
 
     @Override
+    public Event updateServer(Server server) {
+        return new Buffer(this.customer, server, this.timestamp);
+    }
+
+    @Override
     public String getType() {
-        return "WAIT";
+        return "BUFFER";
     }
 
     @Override
@@ -62,8 +61,6 @@ public class Wait implements Event {
 
     @Override
     public String toString() {
-        return String.format("%.3f", this.timestamp) + 
-            " " + this.customer.toString() + 
-            " waits at " + this.server.toString() + "\n";
+        return "";
     }
 }
