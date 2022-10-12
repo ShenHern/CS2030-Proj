@@ -6,8 +6,6 @@ public interface Event {
 
     Customer getCustomer();
     
-    int getPriority();
-
     Pair<Event, ServerList> execute(ServerList serverList);
 
     boolean hasNextEvent();

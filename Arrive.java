@@ -2,7 +2,6 @@ public class Arrive implements Event {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
-    private static final int PRIO = -1;
 
     /**
      * Creates instance of Arrive Event.
@@ -29,11 +28,6 @@ public class Arrive implements Event {
     @Override
     public Customer getCustomer() {
         return this.customer;
-    }
-
-    @Override
-    public int getPriority() {
-        return Arrive.PRIO;
     }
 
     @Override

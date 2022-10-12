@@ -2,7 +2,6 @@ public class Serve implements WaitableEvent {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
-    private static final int PRIO = 0;
 
     Serve(Customer customer, Server server, double timestamp) {
         this.customer = customer;
@@ -18,11 +17,6 @@ public class Serve implements WaitableEvent {
     @Override
     public Customer getCustomer() {
         return this.customer;
-    }
-
-    @Override
-    public int getPriority() {
-        return Serve.PRIO;
     }
 
     @Override

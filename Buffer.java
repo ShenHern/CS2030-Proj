@@ -2,7 +2,6 @@ class Buffer implements Event {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
-    private static final int PRIO = 0;
 
     Buffer(Customer customer, Server server, double timestamp) {
         this.customer = customer;
@@ -18,11 +17,6 @@ class Buffer implements Event {
     @Override
     public Customer getCustomer() {
         return this.customer;
-    }
-
-    @Override
-    public int getPriority() {
-        return Buffer.PRIO;
     }
 
     @Override

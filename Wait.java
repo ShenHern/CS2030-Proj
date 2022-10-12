@@ -2,7 +2,6 @@ public class Wait implements Event {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
-    private static final int PRIO = 0;
     
     /**
      * Creates instance of Wait Event.
@@ -24,11 +23,6 @@ public class Wait implements Event {
     @Override
     public Customer getCustomer() {
         return this.customer;
-    }
-
-    @Override
-    public int getPriority() {
-        return Wait.PRIO;
     }
 
     @Override
