@@ -1,10 +1,10 @@
-public class Done implements Event {
+class Buffer implements Event {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
     private static final int PRIO = 1;
 
-    Done(Customer customer, Server server, double timestamp) {
+    Buffer(Customer customer, Server server, double timestamp) {
         this.customer = customer;
         this.server = server;
         this.timestamp = timestamp;
@@ -22,33 +22,30 @@ public class Done implements Event {
 
     @Override
     public int getPriority() {
-        return Done.PRIO;
+        return Buffer.PRIO;
     }
 
     @Override
     public Pair<Event, Server> execute() {
-        if (this.server.getQCurr() > 0) {
-            return new Pair<Event, Server>(
-                new Buffer(this.server.getNextCustomer(), this.server, this.timestamp),
-                this.server
-            );
-        }
-        return new Pair<Event, Server>(this, this.server);
+        return new Pair<Event, Server>(
+            new Serve(this.customer, this.server, this.timestamp),
+            this.server
+        );
     }
 
     @Override
     public boolean hasNextEvent() {
-        return this.server.getQCurr() > 0;
+        return true;
     }
 
     @Override
     public Event updateServer(Server server) {
-        return new Done(this.customer, server, this.timestamp);
+        return new Buffer(this.customer, server, this.timestamp);
     }
 
     @Override
     public String getType() {
-        return "DONE";
+        return "BUFFER";
     }
 
     @Override
@@ -58,8 +55,6 @@ public class Done implements Event {
 
     @Override
     public String toString() {
-        return String.format("%.3f", this.timestamp) + 
-            " " + this.customer.toString() + 
-            " done serving by " + this.server.toString() + "\n";
+        return "";
     }
 }
