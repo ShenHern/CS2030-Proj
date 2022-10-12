@@ -32,11 +32,11 @@ public class Wait implements Event {
     }
 
     @Override
-    public Pair<Event, Server> execute() {
-        //terminating event return itself
-        return new Pair<Event, Server>(
-            new Buffer(this.customer, this.server, this.server.getBusyUntil()), 
-            this.server.updateServerQueue(this.customer)
+    public Pair<Event, ServerList> execute(ServerList serverList) {
+        Server server = serverList.getServer(this.server.getIdx());
+        return new Pair<Event, ServerList>(
+            new Buffer(this.customer, server, server.getBusyUntil()), 
+            serverList.updateServer(server.updateServerQueue(this.customer))
         );
     }
 

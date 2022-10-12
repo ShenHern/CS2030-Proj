@@ -26,16 +26,17 @@ class Buffer implements Event {
     }
 
     @Override
-    public Pair<Event, Server> execute() {
-        if (this.server.checkCanServeQ(this.customer, this.timestamp)) {
-            return new Pair<Event, Server>(
-                    new Serve(this.customer, this.server, this.timestamp),
-                    this.server);
+    public Pair<Event, ServerList> execute(ServerList serverList) {
+        Server server = serverList.getServer(this.server.getIdx());
+        if (server.checkCanServeQ(this.customer, this.timestamp)) {
+            return new Pair<Event, ServerList>(
+                    new Serve(this.customer, server, this.timestamp),
+                    serverList.updateServer(server));
         }
-        return new Pair<Event, Server>(
-                new Buffer(this.customer, this.server,
-                        this.server.getBusyUntil()),
-                this.server);
+        return new Pair<Event, ServerList>(
+                new Buffer(this.customer, server,
+                        server.getBusyUntil()),
+                serverList.updateServer(server));
     }
 
     @Override

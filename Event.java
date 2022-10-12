@@ -8,7 +8,7 @@ public interface Event {
     
     int getPriority();
 
-    Pair<Event, Server> execute();
+    Pair<Event, ServerList> execute(ServerList serverList);
 
     boolean hasNextEvent();
 

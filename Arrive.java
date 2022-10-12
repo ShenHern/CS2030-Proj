@@ -37,23 +37,27 @@ public class Arrive implements Event {
     }
 
     @Override
-    public Pair<Event, Server> execute() {
-        if (!this.server.checkCanServe(this.customer)) {
-            if (this.server.checkCanWait()) {
-                return new Pair<Event, Server>(new Wait(this.customer, 
-                                                        this.server, 
+    public Pair<Event, ServerList> execute(ServerList serverList) {
+        Server server = serverList.getAvailableServer(this.customer)
+            .orElseGet(() -> serverList.getQueueServer()
+            .orElseGet(() -> serverList.getServer(0)));
+
+        if (!server.checkCanServe(this.customer)) {
+            if (server.checkCanWait()) {
+                return new Pair<Event, ServerList>(new Wait(this.customer, 
+                                                        server, 
                                                         this.timestamp), 
-                this.server);
+                serverList.updateServer(server));
             }
-            return new Pair<Event, Server>(new Leave(this.customer, 
-                                                    this.server, 
+            return new Pair<Event, ServerList>(new Leave(this.customer, 
+                                                    server, 
                                                     this.timestamp), 
-            this.server);
+            serverList.updateServer(server));
         }
-        return new Pair<Event, Server>(new Serve(this.customer, 
-                                                this.server, 
+        return new Pair<Event, ServerList>(new Serve(this.customer, 
+                                                server, 
                                                 this.timestamp), 
-        this.server);
+        serverList.updateServer(server));
     }
 
     @Override

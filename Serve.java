@@ -31,13 +31,16 @@ public class Serve implements WaitableEvent {
     }
 
     @Override
-    public Pair<Event, Server> execute() {
-        return new Pair<Event, Server>(
+    public Pair<Event, ServerList> execute(ServerList serverList) {
+        Server server = serverList.getServer(this.server.getIdx());
+        Server updatedServer = server.updateServerBusyUntil(
+            this.timestamp + this.customer.getServeTime());
+
+        return new Pair<Event, ServerList>(
                 new Done(this.customer,
-                    this.server.updateServerBusyUntil(
-                        this.timestamp + this.customer.getServeTime()),
+                    updatedServer,
                     this.timestamp + this.customer.getServeTime()),
-            this.server.updateServerBusyUntil(this.timestamp + this.customer.getServeTime()));
+            serverList.updateServer(updatedServer));
     }
 
     @Override

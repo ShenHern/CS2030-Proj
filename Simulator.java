@@ -25,7 +25,7 @@ public class Simulator {
         pq = addArrives(pq);
 
         // create list of Servers
-        ImList<Server> serverList = ServerList.createServerList(this.numOfServers, this.qmax);
+        ServerList serverList = new ServerList(this.numOfServers, this.qmax);
 
         // instantiating StatCalc
         StatCalc statCalc = new StatCalc();
@@ -38,8 +38,8 @@ public class Simulator {
             // add e.toString to log
             logString += e.toString();
 
-            // process current event and return the updated PQ<Event> and ImList<Server>
-            Pair<PQ<Event>, ImList<Server>> pr2 = EventProcessor.processEvent(e, serverList, pq);
+            // process current event and return the updated PQ<Event> and ServerList
+            Pair<PQ<Event>, ServerList> pr2 = EventProcessor.processEvent(e, serverList, pq);
             pq = pr2.first();
             serverList = pr2.second();
 
