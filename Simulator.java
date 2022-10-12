@@ -36,7 +36,7 @@ public class Simulator {
             Event e = pr.first();
             pq = pr.second();
             // add e.toString to log
-            logString += e.toString() + "\n";
+            logString += e.toString();
 
             // process current event and return the updated PQ<Event> and ImList<Server>
             Pair<PQ<Event>, ImList<Server>> pr2 = EventProcessor.processEvent(e, serverList, pq);

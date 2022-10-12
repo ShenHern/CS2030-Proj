@@ -63,6 +63,6 @@ public class Wait implements Event {
     public String toString() {
         return String.format("%.3f", this.timestamp) + 
             " " + this.customer.toString() + 
-            " waits at " + this.server.toString();
+            " waits at " + this.server.toString() + "\n";
     }
 }

@@ -53,6 +53,6 @@ public class Leave implements Event {
 
     @Override
     public String toString() {
-        return String.format("%.3f", this.timestamp) + " " + customer.toString() + " leaves";
+        return String.format("%.3f", this.timestamp) + " " + customer.toString() + " leaves" + "\n";
     }
 }

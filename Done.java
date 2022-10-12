@@ -60,6 +60,6 @@ public class Done implements Event {
     public String toString() {
         return String.format("%.3f", this.timestamp) + 
             " " + this.customer.toString() + 
-            " done serving by " + this.server.toString();
+            " done serving by " + this.server.toString() + "\n";
     }
 }
