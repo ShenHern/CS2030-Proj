@@ -23,6 +23,21 @@ public class Leave implements Event {
     }
 
     @Override
+    public double getWaitTime() {
+        return 0;
+    }
+
+    @Override
+    public int customersLeft() {
+        return 1;
+    }
+
+    @Override 
+    public int customersServed() {
+        return 0;
+    }
+
+    @Override
     public boolean hasNextEvent() {
         return false;
     }

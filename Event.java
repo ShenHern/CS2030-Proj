@@ -17,4 +17,10 @@ public interface Event {
     Server getServer();
 
     Event updateServer(Server server);
+
+    double getWaitTime();
+
+    int customersServed();
+
+    int customersLeft();
 }

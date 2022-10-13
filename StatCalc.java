@@ -23,16 +23,11 @@ public class StatCalc {
      */
     public StatCalc updateStats(Event e) {
         // adding up wait time and num of customers served
-        if (e.getType() == "SERVE") {
-            WaitableEvent wait = (WaitableEvent) e;
-            return new StatCalc(this.totalWaitTime + wait.getWaitTime(),
-                    this.customersServed + 1, this.customersLeft);
-        }
-        // adding up num of customers left
-        if (e.getType() == "LEAVE") {
-            return new StatCalc(this.totalWaitTime, this.customersServed, this.customersLeft + 1);
-        }
-        return this;
+        return new StatCalc(
+            this.totalWaitTime + e.getWaitTime(),
+            this.customersServed + e.customersServed(),
+            this.customersLeft + e.customersLeft()
+        );
     }
 
     public double avgWaitTime() {

@@ -28,6 +28,21 @@ public class Arrive implements Event {
     }
 
     @Override
+    public double getWaitTime() {
+        return 0;
+    }
+
+    @Override 
+    public int customersServed() {
+        return 0;
+    }
+
+    @Override 
+    public int customersLeft() {
+        return 0;
+    }
+
+    @Override
     public Customer getCustomer() {
         return this.customer;
     }

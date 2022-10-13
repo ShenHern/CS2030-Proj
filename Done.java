@@ -22,6 +22,21 @@ public class Done implements Event {
     }
 
     @Override
+    public double getWaitTime() {
+        return 0;
+    }
+
+    @Override 
+    public int customersServed() {
+        return 0;
+    }
+
+    @Override 
+    public int customersLeft() {
+        return 0;
+    }
+
+    @Override
     public Pair<Optional<Event>, ServerList> execute(ServerList serverList) {
         Server server = serverList.getServer(this.server.getIdx());
         return new Pair<Optional<Event>, ServerList>(Optional.empty(), serverList.updateServer(server));

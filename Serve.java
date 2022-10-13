@@ -1,6 +1,6 @@
 import java.util.Optional;
 
-public class Serve implements WaitableEvent {
+public class Serve implements Event {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
@@ -24,6 +24,16 @@ public class Serve implements WaitableEvent {
     @Override
     public double getWaitTime() {
         return this.timestamp - this.customer.getArrivalTime();
+    }
+
+    @Override
+    public int customersServed() {
+        return 1;
+    }
+
+    @Override 
+    public int customersLeft() {
+        return 0;
     }
 
     @Override
