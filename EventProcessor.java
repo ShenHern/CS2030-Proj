@@ -1,3 +1,5 @@
+import java.util.Optional;
+
 public class EventProcessor {
     /**
      * class to provide functionality for Event processing.
@@ -16,14 +18,14 @@ public class EventProcessor {
     private static Pair<PQ<Event>, ServerList> processUpdates(Event event,
             ServerList serverList,
             PQ<Event> pq) {
-        Pair<Event, ServerList> pr = event.execute(serverList);
-        Event eNew = pr.first();
+        Pair<Optional<Event>, ServerList> pr = event.execute(serverList);
+        Event eNew = pr.first().orElse(event);
         ServerList sListNew = pr.second();
 
         // update PQ with new Event
-        if (event.hasNextEvent()) {
-            pq = pq.add(eNew);
-        }
+        if (eNew != event) {
+                pq = pq.add(eNew);
+            }
 
         // return updated PQ<Event> and ServerList
         return new Pair<PQ<Event>, ServerList>(pq, sListNew);

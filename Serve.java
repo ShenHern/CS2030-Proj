@@ -1,3 +1,5 @@
+import java.util.Optional;
+
 public class Serve implements WaitableEvent {
     private final Customer customer;
     private final Server server;
@@ -25,15 +27,15 @@ public class Serve implements WaitableEvent {
     }
 
     @Override
-    public Pair<Event, ServerList> execute(ServerList serverList) {
+    public Pair<Optional<Event>, ServerList> execute(ServerList serverList) {
         Server server = serverList.getServer(this.server.getIdx());
         Server updatedServer = server.updateServerBusyUntil(
             this.timestamp + this.customer.getServeTime());
 
-        return new Pair<Event, ServerList>(
-                new Done(this.customer,
+        return new Pair<Optional<Event>, ServerList>(
+                Optional.of(new Done(this.customer,
                     updatedServer,
-                    this.timestamp + this.customer.getServeTime()),
+                    this.timestamp + this.customer.getServeTime())),
             serverList.updateServer(updatedServer));
     }
 

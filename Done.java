@@ -1,3 +1,5 @@
+import java.util.Optional;
+
 public class Done implements Event {
     private final Customer customer;
     private final Server server;
@@ -20,9 +22,9 @@ public class Done implements Event {
     }
 
     @Override
-    public Pair<Event, ServerList> execute(ServerList serverList) {
+    public Pair<Optional<Event>, ServerList> execute(ServerList serverList) {
         Server server = serverList.getServer(this.server.getIdx());
-        return new Pair<Event, ServerList>(this, serverList.updateServer(server));
+        return new Pair<Optional<Event>, ServerList>(Optional.empty(), serverList.updateServer(server));
     }
 
     @Override

@@ -1,3 +1,5 @@
+import java.util.Optional;
+
 public interface Event {
 
     String toString();
@@ -6,7 +8,7 @@ public interface Event {
 
     Customer getCustomer();
     
-    Pair<Event, ServerList> execute(ServerList serverList);
+    Pair<Optional<Event>, ServerList> execute(ServerList serverList);
 
     boolean hasNextEvent();
 

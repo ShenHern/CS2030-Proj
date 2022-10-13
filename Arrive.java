@@ -1,3 +1,5 @@
+import java.util.Optional;
+
 public class Arrive implements Event {
     private final Customer customer;
     private final Server server;
@@ -31,26 +33,26 @@ public class Arrive implements Event {
     }
 
     @Override
-    public Pair<Event, ServerList> execute(ServerList serverList) {
+    public Pair<Optional<Event>, ServerList> execute(ServerList serverList) {
         Server server = serverList.getAvailableServer(this.customer)
             .orElseGet(() -> serverList.getQueueServer()
             .orElseGet(() -> serverList.getServer(0)));
 
         if (!server.checkCanServe(this.customer)) {
             if (server.checkCanWait()) {
-                return new Pair<Event, ServerList>(new Wait(this.customer, 
+                return new Pair<Optional<Event>, ServerList>(Optional.of(new Wait(this.customer, 
                                                         server, 
-                                                        this.timestamp), 
+                                                        this.timestamp)), 
                 serverList.updateServer(server));
             }
-            return new Pair<Event, ServerList>(new Leave(this.customer, 
+            return new Pair<Optional<Event>, ServerList>(Optional.of(new Leave(this.customer, 
                                                     server, 
-                                                    this.timestamp), 
+                                                    this.timestamp)), 
             serverList.updateServer(server));
         }
-        return new Pair<Event, ServerList>(new Serve(this.customer, 
+        return new Pair<Optional<Event>, ServerList>(Optional.of(new Serve(this.customer, 
                                                 server, 
-                                                this.timestamp), 
+                                                this.timestamp)), 
         serverList.updateServer(server));
     }
 

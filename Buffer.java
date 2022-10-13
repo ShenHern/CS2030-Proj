@@ -1,3 +1,5 @@
+import java.util.Optional;
+
 class Buffer implements Event {
     private final Customer customer;
     private final Server server;
@@ -20,16 +22,17 @@ class Buffer implements Event {
     }
 
     @Override
-    public Pair<Event, ServerList> execute(ServerList serverList) {
+    public Pair<Optional<Event>, ServerList> execute(ServerList serverList) {
         Server server = serverList.getServer(this.server.getIdx());
         if (server.checkCanServeQ(this.customer, this.timestamp)) {
-            return new Pair<Event, ServerList>(
-                    new Serve(this.customer, server, this.timestamp),
+            return new Pair<Optional<Event>, ServerList>(
+                Optional.of
+                    (new Serve(this.customer, server, this.timestamp)),
                     serverList.updateServer(server));
         }
-        return new Pair<Event, ServerList>(
-                new Buffer(this.customer, server,
-                        server.getBusyUntil()),
+        return new Pair<Optional<Event>, ServerList>(
+                Optional.of(new Buffer(this.customer, server,
+                        server.getBusyUntil())),
                 serverList.updateServer(server));
     }
 
