@@ -19,15 +19,13 @@ public class EventProcessor {
             ServerList serverList,
             PQ<Event> pq) {
         Pair<Optional<Event>, ServerList> pr = event.execute(serverList);
-        Event eNew = pr.first().orElse(event);
+        // Event eNew = pr.first().orElse(event);
         ServerList sListNew = pr.second();
 
         // update PQ with new Event
-        if (eNew != event) {
-                pq = pq.add(eNew);
-            }
+        PQ<Event> pqNew = pr.first().map(x -> pq.add(x)).orElse(pq);
 
         // return updated PQ<Event> and ServerList
-        return new Pair<PQ<Event>, ServerList>(pq, sListNew);
+        return new Pair<PQ<Event>, ServerList>(pqNew, sListNew);
     }
 }
