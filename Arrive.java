@@ -13,7 +13,7 @@ public class Arrive implements Event {
     public Arrive(Customer customer, double timestamp) {
         this.customer = customer;
         this.timestamp = timestamp;
-        this.server = new Server("1", 0);
+        this.server = new Server("1", 0, Lazy.<Double>of(() -> 1.0));
     }
 
     Arrive(Customer customer, Server server, double timestamp) {

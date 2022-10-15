@@ -41,9 +41,8 @@ class Buffer implements Event {
         Server server = serverList.getServer(this.server.getIdx());
         if (server.checkCanServeQ(this.customer, this.timestamp)) {
             return new Pair<Optional<Event>, ServerList>(
-                Optional.of
-                    (new Serve(this.customer, server, this.timestamp)),
-                    serverList.updateServer(server));
+                Optional.of(new Serve(this.customer, server, this.timestamp)),
+                serverList.updateServer(server));
         }
         return new Pair<Optional<Event>, ServerList>(
                 Optional.of(new Buffer(this.customer, server,

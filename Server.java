@@ -1,9 +1,12 @@
+import java.util.function.Supplier;
 
 public class Server {
+
     private final double busyuntil;
     private final ImList<Customer> customerQueue;
     private final String name;
     private final int qmax;
+    private final Supplier<Double> restTime;
     private final int qcurr;
 
     /**
@@ -12,10 +15,11 @@ public class Server {
      * @param name name of the server
      * @param qmax the maximum number of customers that can queue at the server
      */
-    public Server(String name, int qmax) {
+    public Server(String name, int qmax, Supplier<Double> restTime) {
         this.name = name;
         this.busyuntil = 0;
         this.qmax = qmax;
+        this.restTime = restTime;
         this.qcurr = 0;
         this.customerQueue = new ImList<Customer>();
     }
@@ -31,11 +35,12 @@ public class Server {
      * @param waituntil the time that a customer will have to wait until if it
      *                  queues up
      */
-    private Server(String name, double busyuntil, int qmax, int qcurr,
+    private Server(String name, double busyuntil, int qmax, Supplier<Double> restTime, int qcurr,
             ImList<Customer> customerQueue) {
         this.name = name;
         this.busyuntil = busyuntil;
         this.qmax = qmax;
+        this.restTime = restTime;
         this.qcurr = qcurr;
         this.customerQueue = customerQueue;
     }
@@ -78,11 +83,22 @@ public class Server {
             newCustomerQ = newCustomerQ.remove(0);
         }
 
-        return new Server(this.name, newBusyUntil, this.qmax, newqcurr, newCustomerQ);
+        return new Server(this.name, newBusyUntil, this.qmax,
+            this.restTime, newqcurr, newCustomerQ);
+    }
+
+    /**
+     * method to update the busyUntil time when resting - used in Done Event.
+     * 
+     * @return the updated server after serving a customer
+     */
+    public Server updateServerBusyUntilRest() {
+        return new Server(this.name, this.busyuntil + this.restTime.get(),
+            this.qmax, this.restTime, this.qcurr, this.customerQueue);
     }
 
     public Server updateServerQueue(Customer customer) {
-        return new Server(this.name, this.busyuntil, this.qmax,
+        return new Server(this.name, this.busyuntil, this.qmax, this.restTime,
                 this.qcurr + 1, this.customerQueue.add(customer));
     }
 

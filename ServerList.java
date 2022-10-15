@@ -1,15 +1,16 @@
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class ServerList {
 
     private final ImList<Server> serverList;
 
-    ServerList(ImList<Server> serverList) {
+    private ServerList(ImList<Server> serverList) {
         this.serverList = serverList;
     }
 
-    ServerList(int numOfServers, int qmax) {
-        this.serverList = createServerList(numOfServers, qmax);
+    ServerList(int numOfServers, int qmax, Supplier<Double> restTimes) {
+        this.serverList = createServerList(numOfServers, qmax, restTimes);
     }
 
     /**
@@ -49,10 +50,11 @@ public class ServerList {
         return new ServerList(this.serverList.set(server.getIdx(), server));
     }
 
-    private static ImList<Server> createServerList(int numOfServers, int qmax) {
+    private static ImList<Server> createServerList(int numOfServers, int qmax,
+        Supplier<Double> restTimes) {
         ImList<Server> serverList = new ImList<Server>();
         for (int i = 0; i < numOfServers; i++) {
-            Server s = new Server(String.valueOf(i + 1), qmax);
+            Server s = new Server(String.valueOf(i + 1), qmax, restTimes);
             serverList = serverList.add(s);
         }
         return serverList;

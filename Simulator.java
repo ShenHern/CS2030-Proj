@@ -4,11 +4,15 @@ public class Simulator {
     private final int numOfServers;
     private final int qmax;
     private final ImList<Pair<Double, Supplier<Double>>> inpTimes;
+    private final Supplier<Double> restTimes;
 
-    Simulator(int numOfServers, int qmax, ImList<Pair<Double, Supplier<Double>>> inpTimes) {
+    Simulator(int numOfServers, int qmax,
+        ImList<Pair<Double, Supplier<Double>>> inpTimes,
+        Supplier<Double> restTimes) {
         this.numOfServers = numOfServers;
         this.qmax = qmax;
         this.inpTimes = inpTimes;
+        this.restTimes = restTimes;
     }
 
     /**
@@ -25,7 +29,7 @@ public class Simulator {
         pq = addArrives(pq);
 
         // create list of Servers
-        ServerList serverList = new ServerList(this.numOfServers, this.qmax);
+        ServerList serverList = new ServerList(this.numOfServers, this.qmax, this.restTimes);
 
         // instantiating StatCalc
         StatCalc statCalc = new StatCalc();

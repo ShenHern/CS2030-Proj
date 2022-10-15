@@ -45,7 +45,8 @@ public class Leave implements Event {
     @Override
     public Pair<Optional<Event>, ServerList> execute(ServerList serverList) {
         Server server = serverList.getServer(this.server.getIdx());
-        return new Pair<Optional<Event>, ServerList>(Optional.empty(), serverList.updateServer(server));
+        return new Pair<Optional<Event>, ServerList>(Optional.empty(),
+            serverList.updateServer(server));
     }
 
     @Override
