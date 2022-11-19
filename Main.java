@@ -1,23 +1,41 @@
 import java.util.Scanner;
-import misc.ImList;
-import misc.Pair;
+import java.util.function.Supplier;
+import java.util.Random;
+import java.util.stream.Stream;
 import java.io.File;
 
 class Main {
+    private static final Random RNG_REST = new Random(3L);
+    private static final Random RNG_REST_PERIOD = new Random(4L);
+    private static final double SERVER_REST_RATE = 0.1;
+
+    static double genRestPeriod() {
+        return -Math.log(RNG_REST_PERIOD.nextDouble()) / SERVER_REST_RATE;
+    }
+
     public static void main(String[] args) throws Exception {
         File fin = new File("test.in");
         Scanner sc = new Scanner(fin);
-        ImList<Pair<Double,Double>> inputTimes = new ImList<Pair<Double,Double>>();
+        ImList<Pair<Double,Supplier<Double>>> inputTimes = 
+            new ImList<Pair<Double,Supplier<Double>>>();
 
         int numOfServers = sc.nextInt();
+        int numOfSelfChecks = sc.nextInt();
         int qmax = sc.nextInt();
-        while (sc.hasNextDouble()) {
-            double arrivalTime = sc.nextDouble();
-            double serviceTime = sc.nextDouble();
-            inputTimes = inputTimes.add(new Pair<Double,Double>(arrivalTime, serviceTime));
-        }
+        int numOfCustomers = sc.nextInt();
+        double probRest = sc.nextDouble();
 
-        Simulator sim = new Simulator(numOfServers, qmax, inputTimes);
+        inputTimes = new ImList<Pair<Double,Supplier<Double>>>(
+                Stream.<Pair<Double, Supplier<Double>>>generate(() -> 
+                    new Pair<Double, Supplier<Double>>(
+                        sc.nextDouble(), () -> sc.nextDouble()))
+                .limit(numOfCustomers)
+                .toList());
+
+        Supplier<Double> restTimes = () ->
+            RNG_REST.nextDouble() < probRest ? genRestPeriod() : 0.0;
+
+        Simulator sim = new Simulator(numOfServers, numOfSelfChecks, qmax, inputTimes, restTimes);
         System.out.println(sim.simulate());
         sc.close();
     }

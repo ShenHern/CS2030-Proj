@@ -1,15 +1,9 @@
-package events;
-
-import customers.Customer;
-import interfaces.Event;
-import misc.Pair;
-import servers.Server;
+import java.util.Optional;
 
 public class Wait implements Event {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
-    private static final int PRIO = 0;
     
     /**
      * Creates instance of Wait Event.
@@ -34,22 +28,32 @@ public class Wait implements Event {
     }
 
     @Override
-    public int getPriority() {
-        return Wait.PRIO;
+    public double getWaitTime() {
+        return 0;
+    }
+
+    @Override 
+    public int customersServed() {
+        return 0;
+    }
+
+    @Override 
+    public int customersLeft() {
+        return 0;
     }
 
     @Override
-    public Pair<Event, Server> execute() {
-        return new Pair<Event, Server>(new Serve(this.customer, 
-            this.server.updateServerQueue(this.customer.getServeTime()), 
-            this.server.getWaitUntil()), 
-        this.server.updateServerQueue(this.customer.getServeTime())
+    public Pair<Optional<Event>, ServerList> execute(ServerList serverList) {
+        Server server = serverList.getServer(this.server.getIdx());
+        return new Pair<Optional<Event>, ServerList>(
+            Optional.of(new Buffer(this.customer, server, server.getBusyUntil())), 
+            serverList.updateServer(server.updateServerQueue(this.customer))
         );
     }
 
     @Override
     public Event updateServer(Server server) {
-        return new Wait(this.customer, this.server, this.timestamp);
+        return new Wait(this.customer, server, this.timestamp);
     }
 
     @Override
@@ -71,6 +75,6 @@ public class Wait implements Event {
     public String toString() {
         return String.format("%.3f", this.timestamp) + 
             " " + this.customer.toString() + 
-            " waits at " + this.server.toString();
+            " waits at " + this.server.toString() + "\n";
     }
 }

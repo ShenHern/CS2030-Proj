@@ -1,4 +1,4 @@
-package misc;
+
 
 /**
  * This utility class stores two items together in a pair.

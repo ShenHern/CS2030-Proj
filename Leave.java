@@ -1,17 +1,9 @@
-
-package events;
-
-import customers.Customer;
-import interfaces.Event;
-import misc.Pair;
-import servers.Server;
-
+import java.util.Optional;
 
 public class Leave implements Event {
     private final Customer customer;
     private final Server server;
     private final double timestamp;
-    private static final int PRIO = 0;
 
     
     Leave(Customer customer, Server server, double timestamp) {
@@ -31,8 +23,18 @@ public class Leave implements Event {
     }
 
     @Override
-    public int getPriority() {
-        return Leave.PRIO;
+    public double getWaitTime() {
+        return 0;
+    }
+
+    @Override
+    public int customersLeft() {
+        return 1;
+    }
+
+    @Override 
+    public int customersServed() {
+        return 0;
     }
 
     @Override
@@ -41,8 +43,10 @@ public class Leave implements Event {
     }
 
     @Override
-    public Pair<Event, Server> execute() {
-        return new Pair<Event, Server>(this, this.server);
+    public Pair<Optional<Event>, ServerList> execute(ServerList serverList) {
+        Server server = serverList.getServer(this.server.getIdx());
+        return new Pair<Optional<Event>, ServerList>(Optional.empty(),
+            serverList.updateServer(server));
     }
 
     @Override
@@ -62,6 +66,6 @@ public class Leave implements Event {
 
     @Override
     public String toString() {
-        return String.format("%.3f", this.timestamp) + " " + customer.toString() + " leaves";
+        return String.format("%.3f", this.timestamp) + " " + customer.toString() + " leaves" + "\n";
     }
 }

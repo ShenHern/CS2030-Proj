@@ -1,8 +1,4 @@
-package interfaces;
-
-import customers.Customer;
-import servers.Server;
-import misc.Pair;
+import java.util.Optional;
 
 public interface Event {
 
@@ -12,9 +8,7 @@ public interface Event {
 
     Customer getCustomer();
     
-    int getPriority();
-
-    Pair<Event, Server> execute();
+    Pair<Optional<Event>, ServerList> execute(ServerList serverList);
 
     boolean hasNextEvent();
 
@@ -23,4 +17,10 @@ public interface Event {
     Server getServer();
 
     Event updateServer(Server server);
+
+    double getWaitTime();
+
+    int customersServed();
+
+    int customersLeft();
 }
