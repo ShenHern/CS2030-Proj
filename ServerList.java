@@ -9,8 +9,8 @@ public class ServerList {
         this.serverList = serverList;
     }
 
-    ServerList(int numOfServers, int qmax, Supplier<Double> restTimes) {
-        this.serverList = createServerList(numOfServers, qmax, restTimes);
+    ServerList(int numOfServers, int numOfSelfChecks, int qmax, Supplier<Double> restTimes) {
+        this.serverList = createServerList(numOfServers, numOfSelfChecks, qmax, restTimes);
     }
 
     /**
@@ -50,13 +50,22 @@ public class ServerList {
         return new ServerList(this.serverList.set(server.getIdx(), server));
     }
 
-    private static ImList<Server> createServerList(int numOfServers, int qmax,
+    private static ImList<Server> createServerList(int numOfServers, int numOfSelfCheck, int qmax,
         Supplier<Double> restTimes) {
         ImList<Server> serverList = new ImList<Server>();
+        int selfCheckStart = 0;
+        
         for (int i = 0; i < numOfServers; i++) {
-            Server s = new Server(String.valueOf(i + 1), qmax, restTimes);
+            Server s = new HumanCheck(String.valueOf(i + 1), qmax, restTimes);
             serverList = serverList.add(s);
+            selfCheckStart++;
         }
+
+        if (numOfSelfCheck > 0) {
+            SelfCheck slf = new SelfCheck(String.valueOf(selfCheckStart + 1), numOfSelfCheck, qmax);
+            serverList = serverList.add(slf);
+        }
+
         return serverList;
     }
 }

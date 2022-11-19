@@ -2,14 +2,16 @@ import java.util.function.Supplier;
 
 public class Simulator {
     private final int numOfServers;
+    private final int numOfSelfChecks;
     private final int qmax;
     private final ImList<Pair<Double, Supplier<Double>>> inpTimes;
     private final Supplier<Double> restTimes;
 
-    Simulator(int numOfServers, int qmax,
-        ImList<Pair<Double, Supplier<Double>>> inpTimes,
-        Supplier<Double> restTimes) {
+    Simulator(int numOfServers, int numOfSelfChecks, int qmax,
+            ImList<Pair<Double, Supplier<Double>>> inpTimes,
+            Supplier<Double> restTimes) {
         this.numOfServers = numOfServers;
+        this.numOfSelfChecks = numOfSelfChecks;
         this.qmax = qmax;
         this.inpTimes = inpTimes;
         this.restTimes = restTimes;
@@ -28,8 +30,9 @@ public class Simulator {
         PQ<Event> pq = new PQ<Event>(new TimestampComp());
         pq = addArrives(pq);
 
-        // create list of Servers
-        ServerList serverList = new ServerList(this.numOfServers, this.qmax, this.restTimes);
+        // create list of Servers and self checkout counters
+        ServerList serverList = new ServerList(this.numOfServers, numOfSelfChecks,
+                this.qmax, this.restTimes);
 
         // instantiating StatCalc
         StatCalc statCalc = new StatCalc();
@@ -41,6 +44,7 @@ public class Simulator {
             pq = pr.second();
             // add e.toString to log
             logString += e.toString();
+            // System.out.println(e.toString());
 
             // process current event and return the updated PQ<Event> and ServerList
             Pair<PQ<Event>, ServerList> pr2 = EventProcessor.processEvent(e, serverList, pq);
